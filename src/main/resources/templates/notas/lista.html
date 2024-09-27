@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <title>Lista de Notas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1>Lista de Notas</h1>
+        <a href="/notas/nuevo" class="btn btn-primary mb-3">Agregar Nuevo Nota</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Resultado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="nota : ${notas}">
+                    <td th:text="${nota.id}"></td>
+                    <td th:text="${nota.nombre}"></td>
+                    <td th:text="${nota.resultado}"></td>
+                    <td>
+                        <button type="button" class="btn btn-warning btn-sm" 
+                            onclick="window.location.href='[[@{/notas/editar/{id}(id=${nota.id})]]'">Editar</button>
+                        <button type="button" class="btn btn-danger btn-sm" 
+                            onclick="if (confirm('¿Estás seguro de que quieres eliminar este nota?')) { window.location.href='[[@{/notas/eliminar/{id}(id=${nota.id})]]'; }">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
