@@ -19,131 +19,131 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CategoriaControllerTest {
+class UsuarioControllerTest {
 
     @Mock
-    private CategoriaRepository categoriaRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Mock
-    private ProductoRepository productoRepository;
+    private NotaRepository notaRepository;
 
     @InjectMocks
-    private CategoriaController categoriaController;
+    private UsuarioController usuarioController;
 
-    private Categoria categoria;
+    private Usuario usuario;
 
     @BeforeEach
     public void setUp() {
-        categoria = new Categoria();
-        categoria.setId(1L);
-        categoria.setNombre("Categoría 1");
+        usuario = new Usuario();
+        usuario.setId(1L);
+        usuario.setNombre("Categoría 1");
     }
 
     @Test
     void testObtenerTodas() {
         System.out.println("Ejecutando prueba: testObtenerTodas");
-        when(categoriaRepository.findAll()).thenReturn(Arrays.asList(categoria));
-        ResponseEntity<List<Categoria>> responseEntity = categoriaController.obtenerTodas();
+        when(usuarioRepository.findAll()).thenReturn(Arrays.asList(usuario));
+        ResponseEntity<List<Usuario>> responseEntity = usuarioController.obtenerTodas();
         
-        List<Categoria> categorias = responseEntity.getBody();
+        List<Usuario> usuarios = responseEntity.getBody();
         System.out.println("Datos enviados a la API: []"); // No hay datos enviados en este caso
-        System.out.println("Datos devueltos de la API: " + categorias);
+        System.out.println("Datos devueltos de la API: " + usuarios);
 
-        Assertions.assertNotNull(categorias);
-        Assertions.assertEquals(1, categorias.size());
-        Assertions.assertEquals("Categoría 1", categorias.get(0).getNombre());
+        Assertions.assertNotNull(usuarios);
+        Assertions.assertEquals(1, usuarios.size());
+        Assertions.assertEquals("Categoría 1", usuarios.get(0).getNombre());
     }
 
     @Test
     void testObtenerPorId() {
         System.out.println("Ejecutando prueba: testObtenerPorId");
-        when(categoriaRepository.findById(anyLong())).thenReturn(Optional.of(categoria));
-        ResponseEntity<Categoria> responseEntity = categoriaController.obtenerPorId(1L);
+        when(usuarioRepository.findById(anyLong())).thenReturn(Optional.of(usuario));
+        ResponseEntity<Usuario> responseEntity = usuarioController.obtenerPorId(1L);
         
         System.out.println("Datos enviados a la API: ID = 1");
         System.out.println("Datos devueltos de la API: " + responseEntity.getBody());
 
         Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        Assertions.assertEquals(categoria, responseEntity.getBody());
+        Assertions.assertEquals(usuario, responseEntity.getBody());
     }
 
     @Test
-    void testCrearCategoria() {
-        System.out.println("Ejecutando prueba: testCrearCategoria");
-        when(categoriaRepository.save(any(Categoria.class))).thenReturn(categoria);
+    void testCrearUsuario() {
+        System.out.println("Ejecutando prueba: testCrearUsuario");
+        when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
         
-        System.out.println("Datos enviados a la API: " + categoria);
-        ResponseEntity<Categoria> response = categoriaController.crearCategoria(categoria);
+        System.out.println("Datos enviados a la API: " + usuario);
+        ResponseEntity<Usuario> response = usuarioController.crearUsuario(usuario);
         System.out.println("Datos devueltos de la API: " + response.getBody());
 
         Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        Assertions.assertEquals(categoria, response.getBody());
-        verify(categoriaRepository, times(1)).save(any(Categoria.class));
+        Assertions.assertEquals(usuario, response.getBody());
+        verify(usuarioRepository, times(1)).save(any(Usuario.class));
     }
 
     @Test
-    void testActualizarCategoria() {
-        System.out.println("Ejecutando prueba: testActualizarCategoria");
-        when(categoriaRepository.existsById(anyLong())).thenReturn(true);
-        when(categoriaRepository.save(any(Categoria.class))).thenReturn(categoria);
+    void testActualizarUsuario() {
+        System.out.println("Ejecutando prueba: testActualizarUsuario");
+        when(usuarioRepository.existsById(anyLong())).thenReturn(true);
+        when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
         
-        System.out.println("Datos enviados a la API: ID = 1, " + categoria);
-        ResponseEntity<Categoria> response = categoriaController.actualizarCategoria(1L, categoria);
+        System.out.println("Datos enviados a la API: ID = 1, " + usuario);
+        ResponseEntity<Usuario> response = usuarioController.actualizarUsuario(1L, usuario);
         System.out.println("Datos devueltos de la API: " + response.getBody());
 
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertEquals(categoria, response.getBody());
-        verify(categoriaRepository, times(1)).save(any(Categoria.class));
+        Assertions.assertEquals(usuario, response.getBody());
+        verify(usuarioRepository, times(1)).save(any(Usuario.class));
     }
 
     @Test
-    void testActualizarCategoriaNoEncontrada() {
-        System.out.println("Ejecutando prueba: testActualizarCategoriaNoEncontrada");
-        when(categoriaRepository.existsById(anyLong())).thenReturn(false);
-        ResponseEntity<Categoria> response = categoriaController.actualizarCategoria(1L, categoria);
+    void testActualizarUsuarioNoEncontrada() {
+        System.out.println("Ejecutando prueba: testActualizarUsuarioNoEncontrada");
+        when(usuarioRepository.existsById(anyLong())).thenReturn(false);
+        ResponseEntity<Usuario> response = usuarioController.actualizarUsuario(1L, usuario);
         
-        System.out.println("Datos enviados a la API: ID = 1, " + categoria);
+        System.out.println("Datos enviados a la API: ID = 1, " + usuario);
         System.out.println("Datos devueltos de la API: " + response.getStatusCode());
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
-    void testEliminarCategoria() {
-        System.out.println("Ejecutando prueba: testEliminarCategoria");
-        when(categoriaRepository.existsById(anyLong())).thenReturn(true);
-        when(productoRepository.findByCategoriaId(anyLong())).thenReturn(Arrays.asList());
-        doNothing().when(categoriaRepository).deleteById(anyLong());
+    void testEliminarUsuario() {
+        System.out.println("Ejecutando prueba: testEliminarUsuario");
+        when(usuarioRepository.existsById(anyLong())).thenReturn(true);
+        when(notaRepository.findByUsuarioId(anyLong())).thenReturn(Arrays.asList());
+        doNothing().when(usuarioRepository).deleteById(anyLong());
         
         System.out.println("Datos enviados a la API: ID = 1");
-        ResponseEntity<Void> response = categoriaController.eliminarCategoria(1L);
+        ResponseEntity<Void> response = usuarioController.eliminarUsuario(1L);
         System.out.println("Datos devueltos de la API: " + response.getStatusCode());
 
         Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-        verify(categoriaRepository, times(1)).deleteById(anyLong());
+        verify(usuarioRepository, times(1)).deleteById(anyLong());
     }
 
     @Test
-    void testEliminarCategoriaConProductosAsociados() {
-        System.out.println("Ejecutando prueba: testEliminarCategoriaConProductosAsociados");
-        when(categoriaRepository.existsById(anyLong())).thenReturn(true);
-        when(productoRepository.findByCategoriaId(anyLong())).thenReturn(Arrays.asList(new Producto()));
+    void testEliminarUsuarioConNotasAsociados() {
+        System.out.println("Ejecutando prueba: testEliminarUsuarioConNotasAsociados");
+        when(usuarioRepository.existsById(anyLong())).thenReturn(true);
+        when(notaRepository.findByUsuarioId(anyLong())).thenReturn(Arrays.asList(new Nota()));
         
         System.out.println("Datos enviados a la API: ID = 1");
-        ResponseEntity<Void> response = categoriaController.eliminarCategoria(1L);
+        ResponseEntity<Void> response = usuarioController.eliminarUsuario(1L);
         System.out.println("Datos devueltos de la API: " + response.getStatusCode());
 
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
-    void testObtenerProductosPorCategoria() {
-        System.out.println("Ejecutando prueba: testObtenerProductosPorCategoria");
-        when(categoriaRepository.existsById(anyLong())).thenReturn(true);
-        when(productoRepository.findByCategoriaId(anyLong())).thenReturn(Arrays.asList(new Producto()));
+    void testObtenerNotasPorUsuario() {
+        System.out.println("Ejecutando prueba: testObtenerNotasPorUsuario");
+        when(usuarioRepository.existsById(anyLong())).thenReturn(true);
+        when(notaRepository.findByUsuarioId(anyLong())).thenReturn(Arrays.asList(new Nota()));
         
-        System.out.println("Datos enviados a la API: Categoria ID = 1");
-        ResponseEntity<List<Producto>> response = categoriaController.obtenerProductosPorCategoria(1L);
+        System.out.println("Datos enviados a la API: Usuario ID = 1");
+        ResponseEntity<List<Nota>> response = usuarioController.obtenerNotasPorUsuario(1L);
         System.out.println("Datos devueltos de la API: " + response.getStatusCode());
 
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());

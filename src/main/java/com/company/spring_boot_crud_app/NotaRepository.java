@@ -14,4 +14,6 @@ public interface NotaRepository extends CrudRepository<Nota, Long> {
 
     List<Nota> findByResultadoLessThan(Double resultado);
 
+    List<Nota> findByCarpetaId(Long carpetaId);
+
 }

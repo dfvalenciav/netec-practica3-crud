@@ -10,9 +10,12 @@ public class NotaWebController {
     
     private static final String REDIRECT_NOTAS = "redirect:/notas";
     private final NotaRepository notaRepository;
+    private final CarpetaRepository carpetaRepository; // Add this line
 
-    public NotaWebController(NotaRepository notaRepository) {
+    // Injecting both notaRepository and carpetaRepository
+    public NotaWebController(NotaRepository notaRepository, CarpetaRepository carpetaRepository) {
         this.notaRepository = notaRepository;
+        this.carpetaRepository = carpetaRepository; // Initialize carpetaRepository
     }
 
     @GetMapping
@@ -24,6 +27,7 @@ public class NotaWebController {
     @GetMapping("/nuevo")
     public String mostrarFormularioNuevo(Model model) {
         model.addAttribute("nota", new Nota());
+        model.addAttribute("carpetas", carpetaRepository.findAll()); // Provide carpetas to the model
         return "notas/formulario";
     }
 
@@ -38,6 +42,7 @@ public class NotaWebController {
         Nota nota = notaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("ID de nota inválido: " + id));
         model.addAttribute("nota", nota);
+        model.addAttribute("carpetas", carpetaRepository.findAll()); // Provide carpetas for editing
         return "notas/formulario";
     }
 

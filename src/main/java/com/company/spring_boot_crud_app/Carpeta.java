@@ -4,10 +4,12 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-@Table(name = "categorias")
+@Table(name = "carpetas")
 @Data
-public class Categoria {
+public class Carpeta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,6 +17,7 @@ public class Categoria {
     @Column(nullable = false)
     private String nombre;
 
-    @OneToMany(mappedBy = "categoria")
-    private List<Producto> productos;
+    @OneToMany(mappedBy = "carpeta")
+    @JsonIgnore 
+    private List<Nota> notas;
 }
